@@ -6,6 +6,12 @@ exports.getProductos = (req, res, next) => {
   });
 };
 
+exports.getProducto = (req, res, next) => {
+  const idProducto = req.params.idProducto;
+  console.log(idProducto);
+  res.redirect('/');
+};
+
 
 exports.getIndex = (req, res, next) => {
   Producto.fetchAll(productos => {
