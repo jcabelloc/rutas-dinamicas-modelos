@@ -9,9 +9,11 @@ exports.getProductos = (req, res, next) => {
 exports.getProducto = (req, res, next) => {
   const idProducto = req.params.idProducto;
   Producto.findById(idProducto, producto => {
-    console.log(producto);
-  });
-  res.redirect('/');
+    res.render('tienda/detalle-producto', {
+      producto: producto,
+      titulo: producto.nombre,
+      path: '/productos'
+    });  });
 };
 
 
