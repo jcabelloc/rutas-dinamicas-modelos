@@ -13,7 +13,7 @@ exports.postCrearProducto = (req, res, next) => {
   const urlImagen = req.body.urlImagen;
   const precio = req.body.precio;
   const descripcion = req.body.descripcion;
-  const producto = new Producto(nombre, urlImagen, descripcion, precio);
+  const producto = new Producto(null, nombre, urlImagen, descripcion, precio);
   producto.save();
   res.redirect('/')
 };
@@ -36,6 +36,23 @@ exports.getEditarProducto = (req, res, next) => {
       producto: producto
     });
   });
+};
+
+exports.postEditarProducto = (req, res, next) => {
+  const idProducto = req.body.idProducto;
+  const nombre = req.body.nombre;
+  const precio = req.body.precio;
+  const urlImagen = req.body.urlImagen;
+  const descripcion = req.body.descripcion;
+  const productoActualizado = new Producto(
+    idProducto,
+    nombre,
+    urlImagen,
+    descripcion,
+    precio
+  );
+  productoActualizado.save();
+  res.redirect('/admin/productos');
 };
 
 exports.getProductos = (req, res, next) => {
