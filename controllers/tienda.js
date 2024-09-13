@@ -1,4 +1,6 @@
 const Producto = require('../models/producto');
+const Carrito = require('../models/carrito');
+
 
 exports.getProductos = (req, res, next) => {
   Producto.fetchAll(productos => {
@@ -32,6 +34,14 @@ exports.getCarrito = (req, res, next) => {
     path: '/carrito',
     titulo: 'Mi Carrito'
   });
+};
+
+exports.postCarrito = (req, res, next) => {
+  const idProducto = req.body.idProducto;
+  Producto.findById(idProducto, producto => {
+    Carrito.agregarProducto(idProducto, producto.precio);
+  });
+  res.redirect('/carrito');
 };
 
 exports.getPedidos = (req, res, next) => {

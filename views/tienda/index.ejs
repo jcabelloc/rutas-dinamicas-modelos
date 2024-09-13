@@ -22,7 +22,7 @@
                             <p class="product__description"><%= producto.descripcion %></p>
                         </div>
                         <div class="card__actions">
-                            <button class="btn">Agregar al carrito</button>
+                            <%- include('../includes/agregar-al-carrito.ejs', {producto: producto}) %>
                         </div>
                     </article>
                 <% } %>

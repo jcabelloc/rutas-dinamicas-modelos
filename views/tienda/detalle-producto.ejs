@@ -11,8 +11,6 @@
             </div>
             <h2><%= producto.precio %></h2>
             <p><%= producto.descripcion %></p>
-            <form action="/carrito" method="post">
-                <button class="btn" type="submit">Agregar el Carrito</button>
-            </form>
+            <%- include('../includes/agregar-al-carrito.ejs') %>
         </main>
         <%- include('../includes/end.ejs') %>
