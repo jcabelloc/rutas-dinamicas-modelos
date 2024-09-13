@@ -40,4 +40,25 @@ module.exports = class Carrito {
       });
     });
   }
+
+  static eliminarProducto(id, precio) {
+    fs.readFile(p, (err, fileContent) => {
+      if (err) {
+        return;
+      }
+      const carritoActualizado = { ...JSON.parse(fileContent) };
+      const producto = carritoActualizado.productos.find(prod => prod.id === id);
+      const cantidadProducto = producto.cantidad;
+      carritoActualizado.productos = carritoActualizado.productos.filter(
+        prod => prod.id !== id
+      );
+      carritoActualizado.precioTotal =
+      carritoActualizado.precioTotal - precio * cantidadProducto;
+
+      fs.writeFile(p, JSON.stringify(carritoActualizado), err => {
+        console.log(err);
+      });
+    });
+  }
+
 };

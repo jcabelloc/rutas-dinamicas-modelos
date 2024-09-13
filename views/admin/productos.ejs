@@ -24,6 +24,7 @@
                         <div class="card__actions">
                             <a href="/admin/editar-producto/<%= producto.id %>?editar=true" class="btn">Editar</a>
                             <form action="/admin/eliminar-producto" method="POST">
+                                <input type="hidden" value="<%= producto.id %>" name="idProducto">
                                 <button class="btn" type="submit">Eliminar</button>
                             </form>
                         </div>
@@ -34,4 +35,5 @@
             <h1>No hay productos</h1>
         <% } %>
     </main>
+    
 <%- include('../includes/end.ejs') %>

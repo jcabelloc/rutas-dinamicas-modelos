@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const raizDir = require('../utils/path');
+const Carrito = require('./carrito');
 
 
 const p = path.join(
@@ -49,7 +50,18 @@ module.exports = class Producto {
         }
       });
     }
-
+    static deleteById(id) {
+      getProductosFromFile(productos => {
+        const producto = productos.find(prod => prod.id === id);
+        const productosActualizados = productos.filter(prod => prod.id !== id);
+        fs.writeFile(p, JSON.stringify(productosActualizados), err => {
+          if (!err) {
+            Carrito.eliminarProducto(id, producto.precio);
+          }
+        });
+      });
+    }
+    
     static fetchAll(cb) {
         getProductosFromFile(cb);
     }
@@ -59,5 +71,6 @@ module.exports = class Producto {
           const producto = productos.find(p => p.id === id);
           cb(producto);
         });
-      }
+    }
+
 }
