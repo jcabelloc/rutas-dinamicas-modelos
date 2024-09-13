@@ -48,6 +48,9 @@ module.exports = class Carrito {
       }
       const carritoActualizado = { ...JSON.parse(fileContent) };
       const producto = carritoActualizado.productos.find(prod => prod.id === id);
+      if (!producto) {
+        return;
+      } 
       const cantidadProducto = producto.cantidad;
       carritoActualizado.productos = carritoActualizado.productos.filter(
         prod => prod.id !== id
@@ -58,6 +61,17 @@ module.exports = class Carrito {
       fs.writeFile(p, JSON.stringify(carritoActualizado), err => {
         console.log(err);
       });
+    });
+  }
+  
+  static getCarrito(cb) {
+    fs.readFile(p, (err, fileContent) => {
+      const carrito = JSON.parse(fileContent);
+      if (err) {
+        cb(null);
+      } else {
+        cb(carrito);
+      }
     });
   }
 

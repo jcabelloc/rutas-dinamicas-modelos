@@ -30,9 +30,23 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCarrito = (req, res, next) => {
-  res.render('tienda/carrito', {
-    path: '/carrito',
-    titulo: 'Mi Carrito'
+  Carrito.getCarrito(carrito => {
+    Producto.fetchAll(productos => {
+      const productosCarrito = [];
+      for (producto of productos) {
+        const productoEnCarrito = carrito.productos.find(
+          prod => prod.id === producto.id
+        );
+        if (productoEnCarrito) {
+          productosCarrito.push({ dataProducto: producto, cantidad: productoEnCarrito.cantidad });
+        }
+      }
+      res.render('tienda/carrito', {
+        path: '/carrito',
+        titulo: 'Mi Carrito',
+        productos: productosCarrito
+      });
+    });
   });
 };
 
@@ -40,8 +54,16 @@ exports.postCarrito = (req, res, next) => {
   const idProducto = req.body.idProducto;
   Producto.findById(idProducto, producto => {
     Carrito.agregarProducto(idProducto, producto.precio);
+    res.redirect('/carrito');
   });
-  res.redirect('/carrito');
+};
+
+exports.postEliminarProductoCarrito = (req, res, next) => {
+  const idProducto = req.body.idProducto;
+  Producto.findById(idProducto, producto => {
+    Carrito.eliminarProducto(idProducto, producto.precio);
+    res.redirect('/carrito');
+  });
 };
 
 exports.getPedidos = (req, res, next) => {
