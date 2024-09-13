@@ -1,7 +1,11 @@
 const Producto = require('../models/producto');
 
 exports.getCrearProducto = (req, res, next) => {
-  res.render('admin/crear-producto', { titulo: 'Crear Producto', path: '/admin/crear-producto' });
+  res.render('admin/editar-producto', { 
+    titulo: 'Crear Producto',
+    path: '/admin/crear-producto',
+    modoEdicion: false
+  });
 };
 
 exports.postCrearProducto = (req, res, next) => {
@@ -12,6 +16,26 @@ exports.postCrearProducto = (req, res, next) => {
   const producto = new Producto(nombre, urlImagen, descripcion, precio);
   producto.save();
   res.redirect('/')
+};
+
+exports.getEditarProducto = (req, res, next) => {
+  const modoEdicion = req.query.editar;
+  console.log(req.query)
+  if (!modoEdicion) {
+    return res.redirect('/');
+  }
+  const idProducto = req.params.idProducto;
+  Producto.findById(idProducto, producto => {
+    if (!producto) {
+      return res.redirect('/');
+    }
+    res.render('admin/editar-producto', {
+      titulo: 'Editar Producto',
+      path: '/admin/edit-producto',
+      modoEdicion: true,
+      producto: producto
+    });
+  });
 };
 
 exports.getProductos = (req, res, next) => {
